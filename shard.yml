@@ -1,0 +1,13 @@
+name: stumpy_bmp
+version: 0.1.0
+
+authors:
+  - Ian Rash <redcodefinal@gmail.com>
+
+dependencies:
+  stumpy_png:
+    github: l3kn/stumpy_png
+
+crystal: 0.21.1
+
+license: MIT
