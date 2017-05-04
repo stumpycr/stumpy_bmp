@@ -82,7 +82,9 @@ module StumpyBMP
     # Get 3 bytes at a time
     (image_data_range.size/3).times do |p|
       x = p % file_header[:width]
+      # "invert" y because for some reason it stores the height backwards.
       y = (file_header[:height] - 1 - (p / file_header[:width])).to_i32
+      # extra spaces to skip because rows are seperated by two 00 bytes
       pos = (p / file_header[:width]) * 2
       cr = ((image_data_range.begin + (p * 3) + pos)..(image_data_range.begin + (p * 3) + 2 + pos))
       color_bytes = bit24_to_int file_bytes[cr]
@@ -106,6 +108,8 @@ module StumpyBMP
       end
       puts
     end
+
+    colors
   end
 
   def self.long_to_int(long_chars) : UInt32
