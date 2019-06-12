@@ -37,6 +37,8 @@ module StumpyBMP
       file_bytes << c
     end
 
+    raise "Not a BMP file" if file_bytes[FILE_IDENT_HEADER_RANGE].map(&.chr).join != FILE_IDENT_HEADER
+
     file_header[:file_size] = long_to_int file_bytes[FILE_SIZE_RANGE]
     file_header[:rs1] = bit16_to_int(file_bytes[FILE_RS1_RANGE]).to_u32
     file_header[:rs2] = bit16_to_int(file_bytes[FILE_RS2_RANGE]).to_u32
@@ -81,8 +83,8 @@ module StumpyBMP
     image_data_range = (file_header[:offset]...(file_header[:offset] + file_header[:width] * file_header[:height] * 3))
     puts "IDR: #{image_data_range.size}"
     # Get 3 bytes at a time
-    (image_data_range.size/3).times do |p|
-      x = p % file_header[:width]
+    (image_data_range.size // 3).times do |p|
+      x = (p % file_header[:width]).to_i32
       # "invert" y because for some reason it stores the height backwards.
       y = (file_header[:height] - 1 - (p / file_header[:width])).to_i32
       # extra spaces to skip because rows are seperated by two 00 bytes
