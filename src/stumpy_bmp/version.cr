@@ -1,3 +1,3 @@
-module StumpyBmp
+module StumpyBMP
   VERSION = "0.1.0"
 end
