@@ -5,9 +5,9 @@ authors:
   - Ian Rash <redcodefinal@gmail.com>
 
 dependencies:
-  stumpy_png:
-    github: l3kn/stumpy_png
+  stumpy_core:
+    github: stumpycr/stumpy_core
 
-crystal: 0.21.1
+crystal: 0.29.0
 
 license: MIT
