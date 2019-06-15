@@ -9,7 +9,7 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   stumpy_bmp:
-    github: [your-github-name]/stumpy_bmp
+    github: stumpycr/stumpy_bmp
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it ( https://github.com/[your-github-name]/stumpy_bmp/fork )
+1. Fork it ( https://github.com/stumpycr/stumpy_bmp/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
@@ -34,4 +34,6 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [[your-github-name]](https://github.com/[your-github-name]) Ian Rash - creator, maintainer
+- [redcodefinal](https://github.com/redcodefinal) Ian Rash - creator, maintainer
+- [l3kn](https://github.com/l3kn) Leon Rische - maintainer
+- [reiswindy](https://github.com/reiswindy) reiswindy - contributor
