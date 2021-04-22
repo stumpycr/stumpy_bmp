@@ -4,10 +4,14 @@ version: 0.2.1
 authors:
   - Ian Rash <redcodefinal@gmail.com>
 
+# crystal: 0.29.0
+
+license: MIT
+
 dependencies:
   stumpy_core:
     github: stumpycr/stumpy_core
 
-crystal: 0.29.0
-
-license: MIT
+development_dependencies:
+  spectator:
+    gitlab: arctic-fox/spectator

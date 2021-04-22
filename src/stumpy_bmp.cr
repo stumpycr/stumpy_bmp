@@ -135,6 +135,44 @@ module StumpyBMP
     canvas = populate_canvas(file_header, file_bytes)
   end
 
+  def self.read_file_bytes(filename)
+    file = File.open(filename)
+    file_bytes = [] of UInt8
+
+    # file must be read as UInt8 bytes
+    while (c = file.read_byte)
+      file_bytes << c
+    end
+
+    file_bytes
+  end
+
+  def self.extract_header_data(file_bytes)
+    file_header = {} of Symbol => UInt32
+
+    file_header[:file_size] = long_to_int file_bytes[FILE_SIZE_RANGE]
+    file_header[:rs1] = bit16_to_int(file_bytes[FILE_RS1_RANGE]).to_u32
+    file_header[:rs2] = bit16_to_int(file_bytes[FILE_RS2_RANGE]).to_u32
+    file_header[:offset] = long_to_int file_bytes[FILE_OFFSET_RANGE]
+    file_header[:header_size] = long_to_int file_bytes[IMAGE_HEADER_SIZE_RANGE]
+    file_header[:width] = long_to_int file_bytes[IMAGE_WIDTH_RANGE]
+    file_header[:height] = long_to_int file_bytes[IMAGE_HEIGHT_RANGE]
+    file_header[:color_planes] = bit16_to_int(file_bytes[IMAGE_COLOR_PLANES_RANGE]).to_u32
+    file_header[:bits] = bit16_to_int(file_bytes[IMAGE_BITS_RANGE]).to_u32
+    file_header[:compression] = long_to_int file_bytes[IMAGE_COMPRESSION_RANGE]
+    file_header[:size] = long_to_int file_bytes[IMAGE_SIZE_RANGE]
+    file_header[:res_x] = long_to_int file_bytes[IMAGE_RESOLUTION_X_RANGE]
+    file_header[:res_y] = long_to_int file_bytes[IMAGE_RESOLUTION_Y_RANGE]
+    file_header[:color_numbers] = long_to_int file_bytes[IMAGE_COLOR_NUMBERS_RANGE]
+    file_header[:important_colors] = long_to_int file_bytes[IMAGE_IMPORTANT_COLORS_RANGE]
+
+    file_header
+  end
+
+  def self.validate!(file_bytes)
+    raise "Not a BMP file" if file_bytes[FILE_IDENT_HEADER_RANGE].map(&.chr).join != FILE_IDENT_HEADER
+  end
+
   def self.populate_canvas(file_header, file_bytes)
     image_data_range = (file_header[:offset]...(file_header[:offset] + file_header[:width] * file_header[:height] * 3))
     # Get 3 bytes at a time
@@ -205,44 +243,6 @@ module StumpyBMP
     # b = UInt16::MAX * (b / UInt8::MAX)
 
     canvas.safe_set(x, y, StumpyCore::RGBA.from_rgb8(r, g, b))
-  end
-
-  def self.read_file_bytes(filename)
-    file = File.open(filename)
-    file_bytes = [] of UInt8
-
-    # file must be read as UInt8 bytes
-    while (c = file.read_byte)
-      file_bytes << c
-    end
-
-    file_bytes
-  end
-
-  def self.extract_header_data(file_bytes)
-    file_header = {} of Symbol => UInt32
-
-    file_header[:file_size] = long_to_int file_bytes[FILE_SIZE_RANGE]
-    file_header[:rs1] = bit16_to_int(file_bytes[FILE_RS1_RANGE]).to_u32
-    file_header[:rs2] = bit16_to_int(file_bytes[FILE_RS2_RANGE]).to_u32
-    file_header[:offset] = long_to_int file_bytes[FILE_OFFSET_RANGE]
-    file_header[:header_size] = long_to_int file_bytes[IMAGE_HEADER_SIZE_RANGE]
-    file_header[:width] = long_to_int file_bytes[IMAGE_WIDTH_RANGE]
-    file_header[:height] = long_to_int file_bytes[IMAGE_HEIGHT_RANGE]
-    file_header[:color_planes] = bit16_to_int(file_bytes[IMAGE_COLOR_PLANES_RANGE]).to_u32
-    file_header[:bits] = bit16_to_int(file_bytes[IMAGE_BITS_RANGE]).to_u32
-    file_header[:compression] = long_to_int file_bytes[IMAGE_COMPRESSION_RANGE]
-    file_header[:size] = long_to_int file_bytes[IMAGE_SIZE_RANGE]
-    file_header[:res_x] = long_to_int file_bytes[IMAGE_RESOLUTION_X_RANGE]
-    file_header[:res_y] = long_to_int file_bytes[IMAGE_RESOLUTION_Y_RANGE]
-    file_header[:color_numbers] = long_to_int file_bytes[IMAGE_COLOR_NUMBERS_RANGE]
-    file_header[:important_colors] = long_to_int file_bytes[IMAGE_IMPORTANT_COLORS_RANGE]
-
-    file_header
-  end
-
-  def self.validate!(file_bytes)
-    raise "Not a BMP file" if file_bytes[FILE_IDENT_HEADER_RANGE].map(&.chr).join != FILE_IDENT_HEADER
   end
 
   def self.long_to_int(long_chars) : UInt32

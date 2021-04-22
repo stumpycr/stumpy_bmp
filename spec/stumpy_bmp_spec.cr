@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe StumpyBMP do
+Spectator.describe StumpyBMP do
   context ".to_u8_bounded" do
     # TODO
   end
@@ -14,6 +14,26 @@ describe StumpyBMP do
   end
 
   context ".read" do
+    # TODO
+  end
+
+  context ".read_file_bytes" do
+    # TODO
+  end
+
+  context ".extract_header_data" do
+    # TODO
+  end
+
+  context ".validate!" do
+    # TODO
+  end
+
+  context ".populate_canvas" do
+    # TODO
+  end
+
+  context ".populate_pixel" do
     # TODO
   end
 
