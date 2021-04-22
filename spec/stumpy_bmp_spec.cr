@@ -13,6 +13,10 @@ Spectator.describe StumpyBMP do
     # TODO
   end
 
+  context ".to_bounded" do
+    # TODO
+  end
+
   context ".read" do
     # TODO
   end
