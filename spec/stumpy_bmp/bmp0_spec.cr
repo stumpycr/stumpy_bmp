@@ -1,0 +1,21 @@
+require "./../spec_helper"
+
+Spectator.describe StumpyBMP::BMP do
+  context "reads BMP file" do
+    context "spec/images/solution0.bmp" do
+      let(bmp) { StumpyBMP::BMP.new(filename: "spec/images/solution0.bmp") } # .read("spec/images/solution.bmp") }
+      before_each { bmp.read }
+
+      # NOTE: The rows are encoded bottom to top and left to right
+      context "row 1" do
+        it "col 0" { expect(bmp.canvas.get(0, 1)).to eq(StumpyCore::RGBA.from_rgba(0, 0, 255, 255)) } # blue
+        it "col 1" { expect(bmp.canvas.get(1, 1)).to eq(StumpyCore::RGBA.from_rgba(0, 255, 0, 255)) } # green
+      end
+
+      context "row 0" do
+        it "col 0" { expect(bmp.canvas.get(0, 0)).to eq(StumpyCore::RGBA.from_rgba(255, 0, 0, 255)) } # red
+        it "col 1" { expect(bmp.canvas.get(1, 0)).to eq(StumpyCore::RGBA.from_rgba(255, 255, 255, 255)) } # white
+      end
+    end
+  end
+end

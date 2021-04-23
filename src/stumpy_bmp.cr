@@ -2,6 +2,8 @@ require "stumpy_core"
 require "./stumpy_bmp/*"
 
 module StumpyBMP
+  include StumpyCore
+  
   FILE_HEADER_RANGE       = (0..13)
   FILE_IDENT_HEADER       = "BM"
   FILE_IDENT_HEADER_RANGE = (0..1)
@@ -174,7 +176,8 @@ module StumpyBMP
   end
 
   def self.bit16_to_int(bit16_chars)
-    to_u16_bounded(
+    # to_u16_bounded(
+    to_u32_bounded(
       (bit16_chars[1]? || 0).to_u16 * (TWO_E_8) +
       (bit16_chars[0]? || 0).to_u16
     )
