@@ -1,59 +1,32 @@
 require "./spec_helper"
 
 Spectator.describe StumpyBMP do
-  context ".to_u8_bounded" do
-    # TODO
-  end
+  let(file_name) { "spec/stumpy_bmp/examples/example0/image.bmp" }
+  let(width_expected) { 2 }
+  let(height_expected) { 2 }
 
-  context ".to_u16_bounded" do
-    # TODO
-  end
+  describe ".read" do
+    context "calls" do
+      pending "StumpyBMP::BMP#read" do
+        expect(StumpyBMP::BMP).to receive(:new).with(file_name: file_name)
+        stumpy_bmp_canvas = StumpyBMP.read(file_name)
+      end
+    end
 
-  context ".to_u32_bounded" do
-    # TODO
-  end
+    context "returns" do
+      let(stumpy_bmp_canvas) { StumpyBMP.read(file_name: file_name) }
+      it "a Canvas" do
+        expect(stumpy_bmp_canvas.class).to eq(StumpyCore::Canvas)
+      end
+      context "a Canvas with expected" do
+        it "width" do
+          expect(stumpy_bmp_canvas.width).to eq(width_expected)
+        end
 
-  context ".to_bounded" do
-    # TODO
-  end
-
-  context ".read" do
-    # TODO
-  end
-
-  context ".read_file_bytes" do
-    # TODO
-  end
-
-  context ".extract_header_data" do
-    # TODO
-  end
-
-  context ".validate!" do
-    # TODO
-  end
-
-  context ".populate_canvas" do
-    # TODO
-  end
-
-  context ".populate_pixel" do
-    # TODO
-  end
-
-  context ".long_to_int" do
-    # TODO
-  end
-
-  context ".bit24_to_int" do
-    # TODO
-  end
-
-  context ".rgb8_to_int" do
-    # TODO
-  end
-
-  context ".bit16_to_int" do
-    # TODO
+        it "height" do
+          expect(stumpy_bmp_canvas.height).to eq(height_expected)
+        end
+      end
+    end
   end
 end

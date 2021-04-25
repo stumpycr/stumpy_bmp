@@ -1,21 +1,24 @@
 require "./../spec_helper"
 
 Spectator.describe StumpyBMP::BMP do
-  # context "reads BMP file" do
-  #   context "spec/stumpy_bmp/examples/example0/image.bmp" do
-  #     let(bmp) { StumpyBMP::BMP.new(file_name: "spec/stumpy_bmp/examples/example0/image.bmp") } # .read("spec/stumpy_bmp/examples/example0/image.bmp") }
-  #     before_each { bmp.read }
+  # TODO
+  # See also: `spec/stumpy_bmp/examples/example*/bmp_spec.cr`
 
-  #     # NOTE: The rows are encoded bottom to top and left to right
-  #     context "row 1" do
-  #       it "col 0" { expect(bmp.canvas.get(0, 1)).to eq(StumpyCore::RGBA.from_rgba(0, 0, 255, 255)) } # blue
-  #       it "col 1" { expect(bmp.canvas.get(1, 1)).to eq(StumpyCore::RGBA.from_rgba(0, 255, 0, 255)) } # green
-  #     end
+  describe "#initialize" do
+    # TODO
+  end
 
-  #     context "row 0" do
-  #       it "col 0" { expect(bmp.canvas.get(0, 0)).to eq(StumpyCore::RGBA.from_rgba(255, 0, 0, 255)) } # red
-  #       it "col 1" { expect(bmp.canvas.get(1, 0)).to eq(StumpyCore::RGBA.from_rgba(255, 255, 255, 255)) } # white
-  #     end
-  #   end
+  describe "#read" do
+    # TODO
+  end
+
+  # private method:
+  # describe "#file_data_to_canvas" do
+  #   # TODO
+  # end
+
+  # private method:
+  # describe "#pixel_data_to_canvas" do
+  #   # TODO
   # end
 end

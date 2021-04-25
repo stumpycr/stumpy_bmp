@@ -5,7 +5,7 @@ module StumpyBMP
     getter errors = Hash(Symbol, String).new
     getter valid = false
 
-    property file_ident_header_ords = Array(UInt8).new # (2,0) # = [0.to_u8,0.to_u8]
+    property file_ident_header_ords = Array(UInt8).new
     property file_size : UInt32 = 0
     property rs1 : UInt32 = 0
     property rs2 : UInt32 = 0
@@ -34,12 +34,11 @@ module StumpyBMP
 
     # IMAGE_HEADER_SIZE            = 40
     # IMAGE_HEADER_RANGE           = (14..53)
-    IMAGE_HEADER_SIZE_RANGE  = (14..17)
-    IMAGE_WIDTH_RANGE        = (18..21)
-    IMAGE_HEIGHT_RANGE       = (22..25)
-    IMAGE_COLOR_PLANES_RANGE = (26..27)
-    IMAGE_BITS_RANGE         = (28..29)
-    # IMAGE_COMPRESSION            = 0
+    IMAGE_HEADER_SIZE_RANGE      = (14..17)
+    IMAGE_WIDTH_RANGE            = (18..21)
+    IMAGE_HEIGHT_RANGE           = (22..25)
+    IMAGE_COLOR_PLANES_RANGE     = (26..27)
+    IMAGE_BITS_RANGE             = (28..29)
     IMAGE_COMPRESSION_RANGE      = (30..33)
     IMAGE_SIZE_RANGE             = (34..37)
     IMAGE_RESOLUTION_X_RANGE     = (38..41)
@@ -66,53 +65,13 @@ module StumpyBMP
         while (c = file.read_byte)
           @file_bytes << c
         end
-        # @file_bytes = (file.read_bytes(UInt8, format: IO::ByteFormat::LittleEndian))
       end
 
       @file_bytes
     end
 
-    def file_ident_header_range_text
-      # if @file_ident_header_ords.size > 0
-      @file_ident_header_ords.map(&.chr).join
-      # else
-      #   ""
-      # end
-    end
-
-    def validate # (file_bytes)
-      @errors = Hash(Symbol, String).new
-
-      @errors[:file_name] = "Param file_name is missing!" if file_name.empty?
-
-      # raise "Not a BMP file" if file_bytes[FILE_IDENT_HEADER_RANGE].map(&.chr).join != FILE_IDENT_HEADER
-      @errors[:file_ident_header_ords] = "Not a BMP file" if file_ident_header_range_text != FILE_IDENT_HEADER
-
-      # TODO: more validations
-
-      valid = @errors.keys.empty?
-    end
-
-    def valid?
-      validate
-
-      @errors.keys.empty? # valid
-    end
-
-    def validate!
-      validate
-
-      raise @errors.to_json unless @errors.keys.empty? # valid
-    end
-
-    def valid?
-      @valid
-    end
-
-    def extract_header_data # (file_name)
+    def extract_header_data
       unless @file_name.empty? || @file_bytes.empty?
-        # file_header = {} of Symbol => UInt32
-        # @file_ident_header_ords = Utils.bit16_to_int(file_bytes[FILE_IDENT_HEADER_RANGE])
         @file_ident_header_ords = file_bytes[FILE_IDENT_HEADER_RANGE]
         @file_size = Utils.long_to_int(file_bytes[FILE_SIZE_RANGE])
         @rs1 = Utils.bit16_to_int(file_bytes[FILE_RS1_RANGE]) # .to_u32
@@ -130,6 +89,31 @@ module StumpyBMP
         @color_numbers = Utils.long_to_int(file_bytes[IMAGE_COLOR_NUMBERS_RANGE])
         @important_colors = Utils.long_to_int(file_bytes[IMAGE_IMPORTANT_COLORS_RANGE])
       end
+    end
+
+    def validate
+      @errors = Hash(Symbol, String).new
+
+      @errors[:file_name] = "Param file_name is missing!" if file_name.empty?
+      @errors[:file_ident_header_ords] = "Not a BMP file" if file_ident_header_range_text != FILE_IDENT_HEADER
+      @errors[:bits] = "Un-supported bit-depth! (bits: #{bits}; supported: 24 at 8bits per bgr, 32 at 8bits per bgra)" if ![24, 32].includes?(bits)
+
+      # TODO: more validations
+
+      @errors
+    end
+
+    def file_ident_header_range_text
+      @file_ident_header_ords.map(&.chr).join
+    end
+
+    def valid?
+      validate
+      @valid = @errors.keys.empty?
+    end
+
+    def validate!
+      raise @errors.to_json if !valid?
     end
   end
 end
