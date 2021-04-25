@@ -11,7 +11,11 @@ license: MIT
 dependencies:
   stumpy_core:
     github: stumpycr/stumpy_core
+    branch: master
 
 development_dependencies:
   spectator:
     gitlab: arctic-fox/spectator
+    # branch: master
+    version: ~> 0.9.36
+

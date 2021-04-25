@@ -3,7 +3,7 @@ require "./stumpy_bmp/*"
 
 module StumpyBMP
   include StumpyCore
-  
+
   FILE_HEADER_RANGE       = (0..13)
   FILE_IDENT_HEADER       = "BM"
   FILE_IDENT_HEADER_RANGE = (0..1)
