@@ -1,6 +1,6 @@
 # stumpy_bmp
 
-TODO: Write a description here
+See https://en.wikipedia.org/wiki/BMP_file_format#Pixel_storage for BMP image format
 
 ## Installation
 
