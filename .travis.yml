@@ -1,1 +1,3 @@
 language: crystal
+env:
+  - SHARDS_OPTS=--ignore-crystal-version
